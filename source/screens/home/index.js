@@ -1,14 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import Timer from '../../components/timer';
+import R from '../../resources/R';
 import Btn from './components/btn';
-
+import TrackedItemSection from './components/trackedItemSection';
 const Home = () => {
   const [activityIsOnGoingFlag, setActivityIsOnGoingFlag] = useState(false);
+
+  const startActivity = () => {
+      setActivityIsOnGoingFlag(true);
+    },
+    pauseActivity = () => {
+      setActivityIsOnGoingFlag(false);
+    },
+    stopActivity = () => {
+      setActivityIsOnGoingFlag(false);
+    };
+  useEffect(() => {}, []);
   return (
     <View style={styles.screen}>
-      <View style={styles.sectionTrackingTime}></View>
-      <View style={styles.sectionTrackingDistance}></View>
-      <View style={styles.sectionTrackingFeetSteps}></View>
+      <TrackedItemSection name="Time" style={styles.sectionTrackingTime}>
+        <Timer style={styles.TrackingItem} activeFlag={activityIsOnGoingFlag} />
+      </TrackedItemSection>
+      <TrackedItemSection
+        name="Distance"
+        style={styles.sectionTrackingDistance}>
+        <Text>00:00:00</Text>
+      </TrackedItemSection>
+      <TrackedItemSection
+        name={'Foot Steps'}
+        style={styles.sectionTrackingFeetSteps}>
+        <Text>00:00:00</Text>
+      </TrackedItemSection>
+
       <View style={styles.sectionTrackingBtns}>
         {activityIsOnGoingFlag ? (
           <View
@@ -18,11 +42,11 @@ const Home = () => {
               justifyContent: 'space-around',
               alignItems: 'center',
             }}>
-            <Btn btnText="Pause" />
-            <Btn btnText="Finish" />
+            <Btn onPress={pauseActivity} btnText="Pause" />
+            <Btn onPress={stopActivity} btnText="Finish" />
           </View>
         ) : (
-          <Btn btnText="Start" />
+          <Btn btnText="Start" onPress={startActivity} />
         )}
       </View>
     </View>
@@ -34,21 +58,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: R.colors.white,
   },
   sectionTrackingTime: {
     flex: 0.25,
-    width: '100%',
-    backgroundColor: 'black',
   },
   sectionTrackingDistance: {
     flex: 0.35,
-    width: '100%',
-    backgroundColor: 'red',
   },
   sectionTrackingFeetSteps: {
     flex: 0.25,
-    width: '100%',
-    backgroundColor: 'blue',
+  },
+  TrackingItem: {
+    fontSize: 52,
+    fontWeight: '600',
+    color: R.colors.black,
   },
   sectionTrackingBtns: {
     flexDirection: 'row',
