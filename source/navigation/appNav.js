@@ -4,19 +4,22 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeNav from './tabsStackNavigators/home-nav/homeNav';
 import HistoryNav from './tabsStackNavigators/history-nav/historyNav';
+import TabIcon from './components/tabIcon';
 
 const Tab = createBottomTabNavigator();
 
 export default function AppNav() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+        }}>
         <Tab.Screen
           options={{
             tabBarIcon: ({focused}) => (
-              <View>
-                <Text>Home</Text>
-              </View>
+              <TabIcon focused={focused} content={'Record'} />
             ),
           }}
           name="HomeNav"
@@ -25,9 +28,7 @@ export default function AppNav() {
         <Tab.Screen
           options={{
             tabBarIcon: ({focused}) => (
-              <View>
-                <Text>History</Text>
-              </View>
+              <TabIcon focused={focused} content={'History'} />
             ),
           }}
           name="HistoryNav"
